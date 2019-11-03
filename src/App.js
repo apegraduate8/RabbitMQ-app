@@ -7,7 +7,7 @@ function App() {
       <div className="App">
           <header className="App-header">
             <p>
-              My app
+              Fake App
             </p>
           </header>
           <Shutter />

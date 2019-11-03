@@ -1,4 +1,5 @@
 import React from 'react';
+import '../App.css';
 
 class Input extends React.Component {
   state = { text: '' };
@@ -7,8 +8,12 @@ class Input extends React.Component {
       this.setState({ text: event.target.value });
   };
 
+  /**
+    * onFormSubmit()
+    * On form submit, Invokes callback from parent component
+    * @param {obj} e - event object
+  */
   onFormSubmit = (e) => {
-      // call callback from parent component
       this.props.onFormSubmit(this.state.text, e);
   };
 
@@ -19,11 +24,11 @@ class Input extends React.Component {
           <span><i> no special characters or digits</i> </span>
           <div className="space">
               <form onSubmit={ this.onFormSubmit }>
-                  <label> Add user</label>
+                  <label>Add user</label>
                   <input
-                    value={ this.state.text }
-                    type="text"
-                    onChange={ this.onInputChange }
+                      value={ this.state.text }
+                      type="text"
+                      onChange={ this.onInputChange }
                   />
                   <button> submit</button>
               </form>

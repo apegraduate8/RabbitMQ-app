@@ -1,14 +1,14 @@
 const amqp = require('amqplib/callback_api');
 
 module.exports = (queue, msg) => {
-    amqp.connect('amqp://localhost?port=8000', function(error0, connection) {
-      if (error0) {
-        throw error0;
+    amqp.connect('amqp://localhost?port=8000', function(error, connection) {
+      if (error) {
+        throw error;
       }
 
-      connection.createChannel(function(error1, channel) {
-          if (error1) {
-            throw error1;
+      connection.createChannel(function(error, channel) {
+          if (error) {
+            throw error;
           }
 
           channel.assertQueue('users', {durable: false});

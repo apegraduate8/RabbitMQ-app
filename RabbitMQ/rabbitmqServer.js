@@ -9,5 +9,5 @@ http.createServer((req, res) => {
 }).listen(port, () => console.log('server running'));
 
 
-//list queues
+//command to list queues
 // sudo rabbitmqctl list_queues
