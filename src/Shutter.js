@@ -20,7 +20,9 @@ class Shutter extends React.Component {
       phrase: null,
       sequence: 0,
       message: null,
-      detail: 'View users with more than 2 accounts! use the filter option in the top left of your screen'
+      detail: 'View users with more than 2 accounts! use the filter option in the top left of your screen',
+      prize: false,
+      sorry: false
     };
 
     componentDidMount () {
@@ -114,11 +116,46 @@ class Shutter extends React.Component {
         }
     }
 
+    /**
+      * checkIsomorphic()
+      * Checks two names to see if there are isomorphic
+      * ex: (egg, add) are isomorphic
+      * @param {array} names, length of array should be two
+    */
+    checkIsomorphic = (names) => {
+        let nameOne = names[0];
+        let nameTwo = names[1];
+
+        if (nameOne.length != nameTwo.length) return false;
+
+        let one = {};
+
+        for (let i = 0; i < nameOne.length; i++) {
+           if (one[nameOne[i]]) {
+              if (one[nameOne[i]] !== nameTwo[i]) {
+                  this.setState({sorry: true});
+                  setTimeout(() => this.setState({sorry: false}), 1000);
+
+                  return false;
+              }
+           } else {
+                one[nameOne[i]] = nameTwo[i];
+            }
+        }
+
+        this.setState({prize: true});
+        setTimeout(() => this.setState({prize: false}), 1000)
+
+        return true;
+    }
+
     render() {
         return (
             <div className='center'>
+                <div className={this.state.prize ? 'opacity' : 'none'} id='fadeout'><h1>Nice Job!</h1></div>
+                <div className={this.state.sorry ? 'opacity' : 'none'} id='sorryfadeout'><h1>Wrong Choice!</h1></div>
                 <Select options={ this.options } onChange={ this.handleChange }/>
-                { this.state.users ? <List users={ this.state.users } /> : '' }
+                { this.state.users ? <List users={ this.state.users } checkIsomorphic={ this.checkIsomorphic } /> : '' }
                 <p>{ this.state.phrase}</p>
                 <span><i>{ this.state.detail }</i> </span>
                 <Input onFormSubmit={ this.sendUserInfo }/>
@@ -132,4 +169,5 @@ export default Shutter;
 
 
 // ---- Reference
-//https://www.telerik.com/blogs/dealing-with-cors-in-create-react-app
+// https://www.telerik.com/blogs/dealing-with-cors-in-create-react-app
+// https://www.telerik.com/blogs/dealing-with-cors-in-create-react-app
