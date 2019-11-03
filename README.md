@@ -39,7 +39,7 @@ check your main node server terminal and you consumer terminal to see when a new
 
 **When adding a new user by name, be sure not to use any special characters or digits!**
 
-# Try adding a new user:
+### Try adding a new user:
 In the main node terminal you will see
  `[x] Sent messgae - new user added!`
 And in the rabbitmq terminal you will see
