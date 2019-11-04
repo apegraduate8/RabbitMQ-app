@@ -1,6 +1,5 @@
-let http = require('http');
-let port = '8080';
-let Producer = require('./producer');
+const http = require('http');
+const Producer = require('./producer');
 const Consumer = require('./consumer');
 
 //fake DB data
@@ -57,26 +56,27 @@ function getVipAcctUsers(users, acctInfo) {
 }
 
 http.createServer((req, res) => {
+    const url = req.url;
     // handles cors issue
     res.writeHead(200, {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
     });
-    let url = req.url;
 
     if (url === '/setUser') {
         let body = '';
 
         if (req.method == 'POST') {
             req.on('data', function(data) {
-              body+=data;
+                body+=data;
             }).on('end', () => {
-              json = JSON.parse(body);
-              newbody = {id: users.length+1, ...json.text};
-              users.push(newbody);
-              Producer('users', 'new user added!');
-              res.end();
+                const json = JSON.parse(body);
+                const newbody = {id: users.length+1, ...json.text};
+
+                users.push(newbody);
+                Producer('users', 'new user added!');
+                res.end();
             });
         }
     }
@@ -85,16 +85,15 @@ http.createServer((req, res) => {
         res.end(JSON.stringify(users));
     }
     if (url === '/getAcctUsers') {
-        let userAccts = getAcctUsers(users, accountsByUserId);
-        console.log(userAccts);
+        const userAccts = getAcctUsers(users, accountsByUserId);
+
         res.write(JSON.stringify(userAccts));
         res.end();
     }
     if (url === '/getVipAcctUsers') {
-        let userAccts = getVipAcctUsers(users, accountsByUserId);
-        console.log(userAccts, 'vip');
+        const userAccts = getVipAcctUsers(users, accountsByUserId);
+
         res.write(JSON.stringify(userAccts));
         res.end();
     }
-
-}).listen(port, () => console.log('server running'));
+}).listen('8080', () => console.log('server running'));
